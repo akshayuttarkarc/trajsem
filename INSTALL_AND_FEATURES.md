@@ -175,7 +175,3 @@ The Exports tab provides:
 - `trajsem_verification.json`
 - `trajsem_povme_template.cfg`
 - expert annotation template
-
-## Publication caveats
-
-This is a serious research scaffold, not a validated black-box scientific instrument. Before paper submission, run replicate trajectories, inspect representative frames, calibrate thresholds for your protein family, and compare against blinded expert annotations.
