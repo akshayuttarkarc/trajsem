@@ -1,0 +1,7 @@
+-r requirements-md.txt
+# Optional external binaries for pocket analysis are not pip packages:
+# - fpocket on PATH for single-frame pocket detection
+# - MDpocket/fpocket suite on PATH for trajectory pocket analysis
+# - POVME installed separately for volume calculations
+# Optional local LLM:
+# - Ollama running locally at http://localhost:11434
