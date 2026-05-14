@@ -71,17 +71,3 @@ python -m pip install -r requirements-md.txt
 python run_app.py
 ```
 
-## Expert annotation format
-
-Upload JSON or JSONL like this:
-
-```json
-[
-  {
-    "event_type": "ligand_pose_drift",
-    "time_window_ns": [55.0, 82.0],
-    "entities": {"ligand": "LIG"},
-    "notes": "Expert rationale."
-  }
-]
-```
