@@ -20,7 +20,7 @@ On some macOS/Linux systems, use `python3` instead of `python`.
 Unzip the downloaded package and enter the folder:
 
 ```bash
-cd trajsem_research
+cd trajsem
 ```
 
 ## 3. Install the lightweight UI
