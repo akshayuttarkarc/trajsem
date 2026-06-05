@@ -325,7 +325,15 @@ def extract_raw_md_features(
         ],
         "exported_frames": exported,
     }
-    return pd.DataFrame(rows), meta
+
+    df = pd.DataFrame(rows)
+
+    try:
+        u.trajectory.close()
+    except Exception:
+        pass
+
+    return df, meta
 
 
 def analyze_uploaded_raw_md(topology_bytes: bytes, topology_name: str, trajectory_bytes: bytes, trajectory_name: str, config: FeatureConfig | None = None) -> tuple[pd.DataFrame, dict]:
@@ -336,4 +344,17 @@ def analyze_uploaded_raw_md(topology_bytes: bytes, topology_name: str, trajector
         top.write_bytes(topology_bytes)
         traj.write_bytes(trajectory_bytes)
         df, meta = extract_raw_md_features(top, traj, config=config, export_frames_dir=frames)
+        # Explicitly release any MDAnalysis file handles (memory-mapped / file-based
+        # trajectory readers) before the TemporaryDirectory context exits.  On
+        # Windows, open handles prevent deletion of the temp files, causing a
+        # PermissionError [WinError 32].  Closing the module-level MDA Universe
+        # objects (if any) that were created inside extract_raw_md_features is not
+        # straightforward from here, so we force garbage collection to trigger
+        # __del__ on any lingering Universe/Reader objects and then attempt a
+        # best-effort handle release via the MDAnalysis trajectory reader API.
+        try:
+            import gc
+            gc.collect()
+        except Exception:
+            pass
         return df, meta
